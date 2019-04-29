@@ -1,7 +1,6 @@
 <template>
   <div class="eae">
     <router-view/>
-
   </div>
 </template>
 
