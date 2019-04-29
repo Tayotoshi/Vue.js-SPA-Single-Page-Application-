@@ -13,7 +13,7 @@
             </div>
         </header>
         <body>
-            <div class="container">
+            <div class="container">            
                 <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia illo laborum autem repellat nobis voluptatem vel reiciendis voluptatibus atque, nemo sed nam repellendus, magnam error facilis explicabo id quos animi!</p>
             </div>
         </body>
@@ -21,9 +21,16 @@
 </template>
 
 <script>
-import cart from '../services/produtos'
+import compra from '../components/Loja'
 export default {
     name: "Carrinho",
+
+    mounted(){
+        console.log(compra);
+        console.log(compra.data);
+    }
+
+
 }   
 
 

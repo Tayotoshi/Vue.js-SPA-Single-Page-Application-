@@ -6,8 +6,17 @@ export default{
         return http.get('product')
     },
 
-    salvar:(produto)=>{
-        return http.post('produto', produto)
+    busca:() => {
+        return http.get('cart')
+    },
+
+    salvar:(produto) => {
+        return http.post('cart/add',produto)
+    },
+
+    delete:(produto) => {
+        return http.delete('cart/remove/{sku}' ,produto)
     }
+
 
 }

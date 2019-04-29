@@ -1,6 +1,5 @@
 <template>
   <div class="eae">
-    
     <router-view/>
 
   </div>
@@ -8,7 +7,7 @@
 
 <script>
 import Loja from './components/Loja.vue'
-import cart from './services/produtos'
+import products from './services/produtos'
 
 export default {
   name: 'app',

@@ -15,10 +15,10 @@
         <div class="container">
             <b-container class="alinhamento">
                 <div class="itens">
-                    <b-row  align-h="around" class='height' v-for="produtos of produtos" v-bind:key="produtos.name">
+                    <b-row  align-h="around" class='height' v-for="produtos of produtos" v-bind:key="produtos.name" > 
                         <div class="col-lg-12" style="float:left; text-align: left;" >
                             <div class="produto">
-                                <h5>Nome: {{produtos.name}} </h5>                              
+                                <h5>Nome: {{produtos.name}}</h5>                              
                             </div>
                             <div class="sku">
                                 <h5>SKU: {{produtos.sku}}</h5>
@@ -39,8 +39,8 @@
                         <div class="col-lg-12" style= "padding-bottom: 5px; text-align: center;">
                             <img class='redimensionamento' v-bind:src="produtos.imageURL" /> 
                         </div>
-                        <div class="col-lg-12" style= "padding-bottom: 5px; text-align: right;">
-                            <b-button variant="info" class="button" @click="salvar()" >Comprar</b-button>
+                        <div class="col-lg-12" style= "padding-bottom: 5px; text-align: right;" >
+                            <b-button variant="info" @click="salvar(1)" >Comprar</b-button>
                         </div>
                     </b-row>
                 </div>
@@ -50,64 +50,71 @@
 </template>
 
 <script>
-import cart from '../services/produtos'
+import product from '../services/produtos'
 import produtos from '../services/produtos';
 export default {
     name: "Loja",
 
+    //Responsavél por utilizar a end point get product
     mounted(){
-        cart.listar().then(resposta => {
+        product.listar().then(resposta => {
         console.log(resposta.data);
         this.produtos = resposta.data;
         })
     },
+    //Responsavél por criar um data() e retornar uma lista com produtos da end point get, e uma biblioteca produto.
     data(){
         return{
             produto:{
                 nome:'',
+                sku:'',
+                categoria:'',
+                preço:'',
+                fabricante:'',
                 quantidade:'',
-                valor:''
-
             },
             produtos: []
         }
     },
     methods:{
-        salvar(){           
-            alert(this.produto.nome)
-        }
-    }
+        //Responsável por adicionar os dados dos produtos a ser comprados na biblitoeca produto, e usar a end point add
+        salvar(id){
+            this.produto.nome+=this.produtos[id].name
+            this.produto.sku+=this.produtos[id].sku
+            this.produto.categoria+=this.produtos[id].category
+            this.produto.preço+=this.produtos[id].price
+            this.produto.fabricante+=this.produtos[id].maker
+            this.produto.quantidade+=this.produtos[id].quantityAvailable
+
+            var myJSON = JSON.stringify(this.produto);
+            var obj = JSON.parse(myJSON);
+            product.salvar(obj).then(resposta => {
+                alert('Salvo com sucesso')
+            })            
+            console.log(obj)     
+        },   
+        //Responsável limpar e zerar a biblioteca produto para poder ser utilizada novamente
+        limpar(){
+            this.produto.nome=''
+            this.produto.sku=''
+            this.produto.categoria=''
+            this.produto.preço=''
+            this.produto.fabricante=''
+            this.produto.quantidade=''
+        },
+   }
 }
-  
+
+
 </script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Pacifico');
 @import url('https://fonts.googleapis.com/css?family=Libre+Baskerville');
 
-
-
-
-
-.produto{
-    align-self: auto;
+.itens{
+    margin: 50px auto 0 auto;
 }
-
-.imagens{
-    max-width:200px;
-    max-height:150px;
-    width: auto;
-    height: auto; 
-}
-
-
-
-.colunas{
-    width: auto; 
-    height: auto;
-}
-
-
 
 .btn{
     text-align:right;
@@ -118,7 +125,6 @@ export default {
     width: 100px; 
     height: 50px;
 }
-
 
 .redimensionamento{
     max-width:200px;
@@ -132,12 +138,6 @@ export default {
     height: auto;
 }
 
-.conteudo{
-    background-color: grey;
-    padding-right: 5px;
-    border: 1px solid #000;
-    border-radius: 10px;
-}
 .cabeçalho{
     overflow: hidden;
     background-color: #f1f1f1;
