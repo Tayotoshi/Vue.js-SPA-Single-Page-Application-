@@ -5,3 +5,7 @@
  ## Incompleto
  
   - Página do carrinho ainda não terminada e a parte da pagina produtos com defeito no get das informações do produto a ser comprado.
+
+
+
+http://localhost:8080/#/api/products (Para entrar na parte de produtos e poder navegar pelo site)
